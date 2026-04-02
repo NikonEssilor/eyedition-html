@@ -2,7 +2,6 @@
 <html lang="ja">
 
 <head>
-    <meta name="robots" content="noindex">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ニコンのメガネレンズ最高位 Eyedition Series</title>
@@ -18,6 +17,198 @@
 </head>
 
 <body>
+    <!-- Countdown overlay - REMOVE AFTER LAUNCH -->
+    <div id="countdown-overlay">
+        <div class="countdown-bg"></div>
+        <div class="countdown-content">
+            <img src="img/logo.svg" alt="Eyedition" class="countdown-logo">
+            <div class="countdown-timer">
+                <div class="countdown-unit">
+                    <span id="cd-days">00</span>
+                    <small>DAYS</small>
+                </div>
+                <div class="countdown-sep">:</div>
+                <div class="countdown-unit">
+                    <span id="cd-hours">00</span>
+                    <small>HOURS</small>
+                </div>
+                <div class="countdown-sep">:</div>
+                <div class="countdown-unit">
+                    <span id="cd-mins">00</span>
+                    <small>MINUTES</small>
+                </div>
+                <div class="countdown-sep">:</div>
+                <div class="countdown-unit">
+                    <span id="cd-secs">00</span>
+                    <small>SECONDS</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        #countdown-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 1s ease;
+        }
+
+        #countdown-overlay .countdown-bg {
+            position: absolute;
+            inset: 0;
+            background-image: url('img/fv.jpg');
+            background-size: cover;
+            background-position: center;
+            filter: blur(20px);
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            #countdown-overlay .countdown-bg {
+                background-image: url('img/fv-sp.jpg');
+            }
+        }
+
+        #countdown-overlay .countdown-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        #countdown-overlay .countdown-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            color: #fff;
+        }
+
+        #countdown-overlay .countdown-logo {
+            width: 200px;
+            margin-bottom: 48px;
+            filter: brightness(0) invert(1);
+        }
+
+        @media (max-width: 768px) {
+            #countdown-overlay .countdown-logo {
+                width: 140px;
+                margin-bottom: 32px;
+            }
+        }
+
+        #countdown-overlay .countdown-timer {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+
+        @media (max-width: 768px) {
+            #countdown-overlay .countdown-timer {
+                gap: 6px;
+            }
+        }
+
+        #countdown-overlay .countdown-unit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #countdown-overlay .countdown-unit span {
+            font-size: 64px;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+            line-height: 1;
+            font-variant-numeric: tabular-nums;
+        }
+
+        @media (max-width: 768px) {
+            #countdown-overlay .countdown-unit span {
+                font-size: 36px;
+            }
+        }
+
+        #countdown-overlay .countdown-unit small {
+            font-size: 11px;
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            margin-top: 8px;
+            opacity: 0.7;
+        }
+
+        #countdown-overlay .countdown-sep {
+            font-size: 48px;
+            font-weight: 200;
+            opacity: 0.5;
+            padding-bottom: 24px;
+        }
+
+        @media (max-width: 768px) {
+            #countdown-overlay .countdown-sep {
+                font-size: 28px;
+                padding-bottom: 16px;
+            }
+        }
+    </style>
+    <script>
+        (function () {
+            var LAUNCH_TIME = new Date('2026-04-03T12:00:00+09:00').getTime();
+            var overlay = document.getElementById('countdown-overlay');
+
+            if (!overlay) return;
+
+            var skipOverlay = new URLSearchParams(window.location.search).has('preview')
+                || Date.now() >= LAUNCH_TIME;
+
+            if (skipOverlay) {
+                overlay.remove();
+                return;
+            }
+
+            document.body.style.overflow = 'hidden';
+
+            var daysEl = document.getElementById('cd-days');
+            var hoursEl = document.getElementById('cd-hours');
+            var minsEl = document.getElementById('cd-mins');
+            var secsEl = document.getElementById('cd-secs');
+
+            function pad(n) {
+                return n < 10 ? '0' + n : String(n);
+            }
+
+            function updateCountdown() {
+                var diff = LAUNCH_TIME - Date.now();
+
+                if (diff <= 0) {
+                    clearInterval(timer);
+                    overlay.style.opacity = '0';
+                    document.body.style.overflow = '';
+                    setTimeout(function () { overlay.remove(); }, 1000);
+                    return;
+                }
+
+                var totalSeconds = Math.floor(diff / 1000);
+                var days = Math.floor(totalSeconds / 86400);
+                var hours = Math.floor((totalSeconds % 86400) / 3600);
+                var minutes = Math.floor((totalSeconds % 3600) / 60);
+                var seconds = totalSeconds % 60;
+
+                daysEl.textContent = pad(days);
+                hoursEl.textContent = pad(hours);
+                minsEl.textContent = pad(minutes);
+                secsEl.textContent = pad(seconds);
+            }
+
+            updateCountdown();
+            var timer = setInterval(updateCountdown, 1000);
+        })();
+    </script>
+    <!-- End countdown overlay -->
+
     <div class="fv">
         <div class="fv-inner">
             <div class="fv-video-wrapper">
